@@ -1,10 +1,14 @@
 # performance 集計 pgm
-# 2017/1/12
-# mamiko yonejima
+# 作成日: 2017/1/12
+# 作成者: mamiko yonejima
+# 作成日: 2017/XX/XX
+# 作成者: kazumi takeuchi, mamiko yonejima 
+# 定モニのスタイル変更に伴う変更
+
 
 # 設定部分
 # 今日の日付
-Today = "20170727"
+Today 　<-  "20170727"
 setwd("../rawdata")
 
 # Making List
