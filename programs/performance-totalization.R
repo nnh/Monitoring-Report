@@ -1,8 +1,8 @@
 # performance 集計 pgm
 # 作成日: 2017/1/12
 # 作成者: mamiko yonejima
-# 作成日: 2017/XX/XX
-# 作成者: kazumi takeuchi, mamiko yonejima 
+# 作成日: 2017/12/26
+# 作成者: kazumi takeuchi, mamiko yonejima
 # 定モニのスタイル変更に伴う変更
 
 
@@ -12,26 +12,29 @@ prtpath <- "//192.168.200.222/Datacenter/学会事務/230_月１登録状況DM�
 # rawdataのリストを作成
 file_list <- list.files(paste0(prtpath, "/rawdata"))
 setwd(paste0(prtpath, "/rawdata"))
-test <- Reduce(rbind, lapply(file_list,  read.csv)) # バインドしながらリストをすべて読み込み
+allfiles <- Reduce(rbind, lapply(file_list,  read.csv)) # バインドしながらリストをすべて読み込み
+
+# 試験名と施設名を繋ぐ変数の導出（CMTRT_HP）
+allfiles$CMTRT_HP <- paste0(allfiles$試験名, "_", allfiles$施設科名)
 
 # # 今日の日付
 # Today 　<-  "20170727"
 # setwd("../rawdata")
-# 
+#
 # # Making List
 # list <- as.data.frame(list.files())
 # list$no  <- c(1:nrow(list))
 # list$df <- paste0("file",list$no)
 # colnames(list) <- c("file","no","name")
-# 
+#
 # # ファイルの読み込み
 # for(i in 1:length(list$no)){
 #   eval(parse(text = paste0("file", list$no[i], " <- read.csv('", list$file[i], "', as.is = T)")))
 # }
-# 
+#
 # #ファイルのバイント
-# filename <- paste(list$name, sep="", collapse=",") 
-# 
+# filename <- paste(list$name, sep="", collapse=",")
+#
 # allData <- eval(
 #   parse(
 #     text=paste0("rbind(",filename,")")
