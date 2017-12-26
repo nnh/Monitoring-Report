@@ -11,6 +11,9 @@ prtpath <- "//192.168.200.222/Datacenter/学会事務/230_月１登録状況DM�
 
 # rawdataのリストを作成
 file_list <- list.files(paste0(prtpath, "/rawdata"))
+setwd(paste0(prtpath, "/rawdata"))
+test <- Reduce(rbind, lapply(file_list,  read.csv)) # バインドしながらリストをすべて読み込み
+
 # # 今日の日付
 # Today 　<-  "20170727"
 # setwd("../rawdata")
