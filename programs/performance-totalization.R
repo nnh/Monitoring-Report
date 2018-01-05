@@ -17,6 +17,44 @@ allfiles <- Reduce(rbind, lapply(file_list,  read.csv)) # バインドしなが�
 # 試験名と施設名を繋ぐ変数の導出（CMTRT_HP）
 allfiles$CMTRT_HP <- paste0(allfiles$試験名, "_", allfiles$施設科名)
 
+# 試験施設名毎に症例登録数をsum
+registration_number <- by(allfiles$症例登録数,allfiles$CMTRT_HP, sum)
+
+# 試験施設名毎に送信シート数毎にsum
+submit_sheet <- by(allfiles$送信シート数,allfiles$CMTRT_HP, sum)
+
+# 試験施設名毎に督促中シート数毎にsum
+demand_sheet <- by(allfiles$督促中シート数,allfiles$CMTRT_HP, sum)
+
+# ｂｙででできた集計値をデータフレームに変換する関数
+ConvertDataframe <- function(dataframe){  #Todoyonejima
+  x <- as.vector(dataframe)
+  試験施設名 <- names(dataframe)
+  data.frame(試験施設名,x)
+}
+
+df_regi <- ConvertDataframe(registration_number)
+df_submit <- ConvertDataframe(submit_sheet)
+df_demand <- ConvertDataframe(demand_sheet)
+
+
+
+
+# 症例登録数<- as.vector(registration_number)
+# 試験施設名 <- names(registration_number)
+#
+# z <- data.frame(
+#   試験施設名,症例登録数
+# )
+#
+# 送信シート数<- as.vector(demand_sheet)
+# 試験施設名 <- names(demand_sheet)
+#
+# z1 <- data.frame(
+#   試験施設名,送信シート数
+# )
+
+
 # # 今日の日付
 # Today 　<-  "20170727"
 # setwd("../rawdata")
