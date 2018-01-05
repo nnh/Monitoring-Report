@@ -37,6 +37,12 @@ df_regi <- ConvertDataframe(registration_number)
 df_submit <- ConvertDataframe(submit_sheet)
 df_demand <- ConvertDataframe(demand_sheet)
 
+#merge
+merge_all <- merge(df_regi,df_submit,by="試験施設名",all=T)
+merge_all1 <- merge(merge_all,df_demand,by="試験施設名",all=T)
+
+#変数名変更
+names(merge_all1)[2:4] <- c("症例登録数","送信シート数","督促中シート数")
 
 
 
