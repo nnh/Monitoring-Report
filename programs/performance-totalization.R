@@ -44,6 +44,8 @@ merge_all1 <- merge(merge_all,df_demand,by="試験施設名",all=T)
 #変数名変更
 names(merge_all1)[2:4] <- c("症例登録数","送信シート数","督促中シート数")
 
+# 試験名と施設名で分ける
+# 試験名をforで回すためにリストにする levels(allfiles$試験名)
 
 
 # 症例登録数<- as.vector(registration_number)
