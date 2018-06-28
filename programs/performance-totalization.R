@@ -63,5 +63,6 @@ list_trial <- levels(allfiles$試験名)
 setwd(paste0(prtpath, "/output"))
 for(i in 1:length(list_trial)){
   ds<- ads[ads$試験名==list_trial[i],]
+  ds <- ds[order(ds$症例登録数, decreasing=T), ]
   write.csv(ds, paste0(list_trial[i], "_performance.csv" ), row.names = F)
 }
