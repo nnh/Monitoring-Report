@@ -15,7 +15,7 @@ ConvertDataframe <- function(dataframe){
 
 # config
 # pathの設定
-prtpath <- "//192.168.200.222/Datacenter/学会事務/230_月１登録状況DM確認用/Ptosh/2018年/20180601/performance"
+prtpath <- "//192.168.200.222/Datacenter/学会事務/230_月１登録状況DM確認用/Ptosh/2018年/20181203/performance"
 
 # rawdataのリストを作成
 file_list <- list.files(paste0(prtpath, "/rawdata"))
@@ -49,12 +49,13 @@ names(merge2)[2:4] <- c("症例登録数","送信シート数","督促中シー�
 ads0 <- merge(merge2, df_investigation, by = "試験施設名", all = T)
 names(ads0)[5] <- "治療状況調査未回答症例数"
 
+
 # 試験名と施設名で分ける
 ads0$試験名 <- sub("_.*", "", ads0$試験施設名)
 ads0$施設名 <- sub("^.*._", "", ads0$試験施設名)
 
 # 必要列のみ抽出
-ads <- ads0[,c(6, 7, 2:5)]
+ads <- ads0[,c(6, 7, 2, 5, 3, 4)]
 
 # 試験名をforで回すためにリストにする
 list_trial <- levels(allfiles$試験名)
