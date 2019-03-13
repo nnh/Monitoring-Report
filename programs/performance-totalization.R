@@ -16,7 +16,7 @@ ConvertDataframe <- function(dataframe){
 # config
 
 # pathの設定
-prtpath <- "//192.168.200.222/Datacenter/学会事務/230_月１登録状況DM確認用/Ptosh/2018年/20181203/performance"
+prtpath <- "//192.168.200.222/Datacenter/学会事務/230_月１登録状況DM確認用/Ptosh/2019年/20190312/performance"
 
 # rawdataのリストを作成
 file_list <- list.files(paste0(prtpath, "/rawdata"))
