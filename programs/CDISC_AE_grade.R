@@ -4,14 +4,14 @@
 
 # 入力ファイル格納場所、リスク分類または割付けがあるかを指定
 # *********************************
-prtpath <- "//192.168.200.222/Datacenter/学会事務/230_月１登録状況DM確認用/Ptosh/2019年/20191202/MLL-17_cdisc_191202_1311"
-kTrialTitle  <- "MLL-17"
+prtpath <- "//192.168.200.222/Datacenter/Trials/ASIA/DS-ALL-2016/11.03.03 Interim Analysis Raw Datasets/2020/20200601/DS-ALL-2016_cdisc_200601_1855"
+kTrialTitle  <- "DS-ALL-2016"
 ctcae_version <- "v4.0"　# CTCAEのバージョンを入力する　
 # armで分けて集計するか あり: YES, なし: NO
-arm <- "NO"　
+arm <- "YES"　
 ## arm が "YES"の場合、DMドメインのCSVファイルはあるか。　# あり: YES, なし: NO
-dm_domain <- "NO"
-###　arm が "YES"の場合、dm_domainが"NO"の場合、読み込むCSVダウンロードファイル名と、変数名を設定
+dm_domain <- "YES"
+###　arm が "YES"の場合且つdm_domainが"NO"の場合、読み込むCSVダウンロードファイル名と、変数名を設定
 kCsv <- "AML-SCT15_sct_191202_1315.csv"
 kArm <- "移植前処置_種類"
 # *********************************
