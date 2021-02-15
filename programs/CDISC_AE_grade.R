@@ -4,16 +4,17 @@
 
 # 入力ファイル格納場所、リスク分類または割付けがあるかを指定
 # *********************************
-prtpath <- "//192.168.200.222/Datacenter/Trials/ASIA/DS-ALL-2016/11.03.03 Interim Analysis Raw Datasets/2020/20200601/DS-ALL-2016_cdisc_200601_1855"
-kTrialTitle  <- "DS-ALL-2016"
+prtpath <- "//192.168.200.222/Datacenter/Trials/JPLSG/45_ALL-Ph18/11.03.03 中間解析用生データ/2021/ALL-Ph18_cdisc_210215_1053"
+kTrialTitle  <- "ALL-Ph18"
 ctcae_version <- "v4.0"　# CTCAEのバージョンを入力する　
 # armで分けて集計するか あり: YES, なし: NO
 arm <- "YES"　
 ## arm が "YES"の場合、DMドメインのCSVファイルはあるか。　# あり: YES, なし: NO
-dm_domain <- "YES"
+dm_domain <- "NO"
 ###　arm が "YES"の場合且つdm_domainが"NO"の場合、読み込むCSVダウンロードファイル名と、変数名を設定
-kCsv <- "AML-SCT15_sct_191202_1315.csv"
-kArm <- "移植前処置_種類"
+kCsv <- "ALL-Ph18_risk2_210210_1205.csv"
+kArm <- "キメラ.MRD"
+
 # *********************************
 kToday <- Sys.Date()
 # Gradeごとにデータを抽出し、クロス集計を行い、成型するための関数を設定
@@ -35,7 +36,9 @@ if(length(dm_index > 0)) {
   DM <- read.csv(paste0(rawdatapath, "DM.csv"), na.strings = c(""), as.is=T, fileEncoding="CP932")
 } else {
   base_csv <- read.csv(paste0(rawdatapath, kCsv), na.strings = c(""), as.is=T, fileEncoding="CP932")
-  dxt_csv <- base_csv[, c("症例登録番号", kArm)]
+  # base_csv$kArm <- ifelse(base_csv$Ig.TCR.MRD == "FCM-MRDで代用", base_csv$FCM.MRD, base_csv$Ig.TCR.MRD) #Ph18のリスク1で集計のときは使用
+  # dxt_csv <- base_csv[, c("症例登録番号", "kArm")] #Ph18のリスク1で集計のときは使用
+  dxt_csv <- base_csv[, c("症例登録番号", kArm)] #Ph18以外の集計のときは使用
   dxt_csv$症例登録番号 <- ifelse(nchar(dxt_csv$症例登録番号) == 1, paste0("000",dxt_csv$症例登録番号),
                           ifelse(nchar(dxt_csv$症例登録番号) == 2, paste0("00",dxt_csv$症例登録番号),
                           ifelse(nchar(dxt_csv$症例登録番号) == 3, paste0("0",dxt_csv$症例登録番号),dxt_csv$症例登録番号)))
