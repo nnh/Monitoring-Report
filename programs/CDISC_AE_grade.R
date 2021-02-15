@@ -4,7 +4,7 @@
 
 # 入力ファイル格納場所、リスク分類または割付けがあるかを指定
 # *********************************
-prtpath <- "//192.168.200.222/Datacenter/Trials/JPLSG/45_ALL-Ph18/11.03.03 中間解析用生データ/2021/ALL-Ph18_cdisc_210215_1053"
+prtpath <- "//192.168.200.222/Datacenter/Trials/JPLSG/45_ALL-Ph18/11.03.03 中間解析用生データ/2021/ALL-Ph18_cdisc_210215_1313"
 kTrialTitle  <- "ALL-Ph18"
 ctcae_version <- "v4.0"　# CTCAEのバージョンを入力する　
 # armで分けて集計するか あり: YES, なし: NO
@@ -38,7 +38,7 @@ if(length(dm_index > 0)) {
   base_csv <- read.csv(paste0(rawdatapath, kCsv), na.strings = c(""), as.is=T, fileEncoding="CP932")
   # base_csv$kArm <- ifelse(base_csv$Ig.TCR.MRD == "FCM-MRDで代用", base_csv$FCM.MRD, base_csv$Ig.TCR.MRD) #Ph18のリスク1で集計のときは使用
   # dxt_csv <- base_csv[, c("症例登録番号", "kArm")] #Ph18のリスク1で集計のときは使用
-  dxt_csv <- base_csv[, c("症例登録番号", kArm)] #Ph18以外の集計のときは使用
+  dxt_csv <- base_csv[, c("症例登録番号", kArm)] #Ph18のリスク1で集計のとき以外の集計のときは使用
   dxt_csv$症例登録番号 <- ifelse(nchar(dxt_csv$症例登録番号) == 1, paste0("000",dxt_csv$症例登録番号),
                           ifelse(nchar(dxt_csv$症例登録番号) == 2, paste0("00",dxt_csv$症例登録番号),
                           ifelse(nchar(dxt_csv$症例登録番号) == 3, paste0("0",dxt_csv$症例登録番号),dxt_csv$症例登録番号)))
