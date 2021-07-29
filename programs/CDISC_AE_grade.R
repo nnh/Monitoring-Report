@@ -71,7 +71,7 @@ if(arm == "NO"){ 　# リスク分類なし、割付なしの場合の処理
     list_FAOBJ <- levels(as.factor(dxt$FAOBJ))  # 事象名のリスト
     df_list_FAOBJ <- as.data.frame(list_FAOBJ)
     
-    emp_df <- data.frame(Toxicity = list_FAOBJ,
+    emp_df <- data.frame(Term = list_FAOBJ,
                          N = NA,
                          Grade3 = NA,
                          Grade3.percent = NA,
@@ -94,7 +94,7 @@ if(arm == "NO"){ 　# リスク分類なし、割付なしの場合の処理
                                 paste0(0, "%"),
                                 paste0(floor(df$Grade5 / df$N* 100 + 0.5), "%"))
     
-    df_merge <- merge(df, CTCAE, by.x = "Toxicity", by.y = "CTCAE.Term", all.x = T)
+    df_merge <- merge(df, CTCAE, by.x = "Term", by.y = "CTCAE.Term", all.x = T)
     df_merge$Grade3 <- ifelse(df_merge$Grade.3 == " -", " -", df_merge$Grade3)
     df_merge$Grade4 <- ifelse(df_merge$Grade.4 == " -", " -", df_merge$Grade4)
     df_merge$Grade5 <- ifelse(df_merge$Grade.5 == " -", " -", df_merge$Grade5)  # CTCAEで定義されていないものは"-"にする
@@ -123,7 +123,7 @@ if(arm == "NO"){ 　# リスク分類なし、割付なしの場合の処理
     list_FAOBJ <- levels(as.factor(dxt0$FAOBJ))  # 事象名のリスト
     df_list_FAOBJ <- as.data.frame(list_FAOBJ)
     list_ARM <- levels(as.factor(mFA$ARM)) # ARMのリスト
-    emp_df <- data.frame(Toxicity = list_FAOBJ,
+    emp_df <- data.frame(Term = list_FAOBJ,
                          N = NA,
                          Grade3 = NA,
                          Grade3.percent = NA,
@@ -147,7 +147,7 @@ if(arm == "NO"){ 　# リスク分類なし、割付なしの場合の処理
       df$Grade5.percent <- ifelse(is.na(df$Grade5),
                                   paste0(0, "%"),
                                   paste0(floor(df$Grade5 / df$N* 100 + 0.5), "%"))
-      df_merge <- merge(df, CTCAE, by.x = "Toxicity", by.y = "CTCAE.Term", all.x = T)
+      df_merge <- merge(df, CTCAE, by.x = "Term", by.y = "CTCAE.Term", all.x = T)
       df_merge$Grade3 <- ifelse(df_merge$Grade.3 == " -", " -", df_merge$Grade3)
       df_merge$Grade4 <- ifelse(df_merge$Grade.4 == " -", " -", df_merge$Grade4)
       df_merge$Grade5 <- ifelse(df_merge$Grade.5 == " -", " -", df_merge$Grade5)  # CTCAEで定義されていないものは"-"にする
