@@ -4,15 +4,15 @@
 # 2021/8/4 更新
 # 入力ファイル格納場所、リスク分類または割付けがあるかを指定
 # *********************************
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/38_PedPona19/11.03.03 中間解析用生データ/PedPona19_cdisc_210803_1317"
-kTrialTitle  <- "PedPona19"
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/45_ALL-Ph18/11.03.03 中間解析用生データ/2021/ALL-Ph18_cdisc_210824_1520"
+kTrialTitle  <- "ALL-Ph18"
 ctcae_version <- "v4.0"　# CTCAEのバージョンを入力する　
 # armで分けて集計するか あり: YES, なし: NO
-arm <- "NO"　
+arm <- "YES"　
 ## arm が "YES"の場合、DMドメインのCSVファイルはあるか。　# あり: YES, なし: NO
 dm_domain <- "NO"
 ###　arm が "YES"の場合且つdm_domainが"NO"の場合、読み込むCSVダウンロードファイル名と、変数名を設定
-kCsv <- "ALL-Ph18_risk2_210210_1205.csv"
+kCsv <- "ALL-Ph18_risk2_210824_1513.csv"
 kArm <- "キメラ.MRD"
 
 # *********************************
@@ -43,11 +43,13 @@ if(length(dm_index > 0)) {
                            ifelse(nchar(dxt_csv$症例登録番号) == 2, paste0("00",dxt_csv$症例登録番号),
                                   ifelse(nchar(dxt_csv$症例登録番号) == 3, paste0("0",dxt_csv$症例登録番号),dxt_csv$症例登録番号)))
   dxt_csv$USUBJID <- paste0(kTrialTitle, "-", dxt_csv$症例登録番号)
-  dxt_csv <- dxt_csv[,c("USUBJID", kArm)]
+  dxt_csv <- dxt_csv[,c("USUBJID", kArm)]#Ph18のリスク1で集計のとき以外の集計のときは使用
+  # dxt_csv <- dxt_csv[,c("USUBJID", "kArm")]#Ph18のリスク1で集計のときは使用
   colnames(dxt_csv)[2] <-  "ARM"
   DM <- dxt_csv
 }
 FA <- read.csv(paste0(rawdatapath, "FA.csv"), na.strings = c(""), as.is=T, fileEncoding="CP932")
+
 # outputのフォルダを作成
 setwd(prtpath)
 dir.create("output")
@@ -153,7 +155,7 @@ if(arm == "NO"){ 　# リスク分類なし、割付なしの場合の処理
       df$Grade5.percent <- ifelse(is.na(df$Grade5),
                                   paste0(0, "%"),
                                   paste0(floor(df$Grade5 / df$N* 100 + 0.5), "%"))
-      df_merge <- merge(df, CTCAE, by.x = "Term", by.y = "CTCAE.Term", all.x = T)
+      df_merge1 <- merge(df, CTCAE, by.x = "Term", by.y = "CTCAE.Term", all.x = T)
 
       df_merge2 <- df_merge1[is.na(df_merge1$MedDRA.Code),] # CTCAEにないもののGroup
       df_merge3 <- df_merge1[!is.na(df_merge1$MedDRA.Code),] # CTCAEにあるもののGroup
@@ -180,6 +182,3 @@ if(arm == "NO"){ 　# リスク分類なし、割付なしの場合の処理
     }
   }
 }
-
-
-
