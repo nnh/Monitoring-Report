@@ -33,9 +33,9 @@ rawdatapath <- paste0(prtpath, "/rawdata/")
 file_list <- list.files(rawdatapath)
 dm_index <- grep("DM", file_list)  # DM.csvの存在を確認
 if(length(dm_index > 0)) {
-  DM <- read.csv(paste0(rawdatapath, "DM.csv"), na.strings = c(""), as.is=T, fileEncoding="CP932")
+  DM <- read.csv(paste0(rawdatapath, "DM.csv"), na.strings = c(""), as.is=T, fileEncoding="UTF-8-BOM")
 } else {
-  base_csv <- read.csv(paste0(rawdatapath, kCsv), na.strings = c(""), as.is=T, fileEncoding="CP932")
+  base_csv <- read.csv(paste0(rawdatapath, kCsv), na.strings = c(""), as.is=T, fileEncoding="UTF-8-BOM")
   # base_csv$kArm <- ifelse(base_csv$Ig.TCR.MRD == "FCM-MRDで代用", base_csv$FCM.MRD, base_csv$Ig.TCR.MRD) #Ph18のリスク1で集計のときは使用
   # dxt_csv <- base_csv[, c("症例登録番号", "kArm")] #Ph18のリスク1で集計のときは使用
   dxt_csv <- base_csv[, c("症例登録番号", kArm)] #Ph18のリスク1で集計のとき以外の集計のときは使用
@@ -48,7 +48,7 @@ if(length(dm_index > 0)) {
   colnames(dxt_csv)[2] <-  "ARM"
   DM <- dxt_csv
 }
-FA <- read.csv(paste0(rawdatapath, "FA.csv"), na.strings = c(""), as.is=T, fileEncoding="CP932")
+FA <- read.csv(paste0(rawdatapath, "FA.csv"), na.strings = c(""), as.is=T, fileEncoding="UTF-8-BOM")
 
 # outputのフォルダを作成
 setwd(prtpath)
