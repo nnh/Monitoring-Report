@@ -58,7 +58,7 @@ setwd("~/GitHub/Monitoring-Report/input")
 if(ctcae_version == "v4.0") {
   CTCAE <- read.csv("CTCAE_4.03.csv", na.strings = c(""), as.is=T, fileEncoding="UTF-8")
 } else {
-  CTCAE <- read.csv("CTCAE_5.0.csv", na.strings = c(""), as.is=T, fileEncoding="UTF-8")
+  CTCAE <- read.csv("CTCAEv5.csv", na.strings = c(""), as.is=T, fileEncoding="UTF-8-BOM")
 }
 CTCAE$row_number <- rownames(CTCAE)
 
