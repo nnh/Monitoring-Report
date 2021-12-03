@@ -15,7 +15,7 @@ ConvertDataframe <- function(dataframe){
 
 # config
 # pathの設定
-prtpath <- "//192.168.200.222/Datacenter/Trials/ASIA/ASIA_performance/20200601"
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/TUBA/TUBA_performance/20211201"
 
 # output フォルダの作成
 setwd(prtpath)
@@ -24,7 +24,7 @@ dir.create("./output")
 # rawdataのリストを作成
 file_list <- list.files(paste0(prtpath, "/rawdata"))
 setwd(paste0(prtpath, "/rawdata"))
-allfiles <- Reduce(rbind, lapply(file_list,  read.csv)) # バインドしながらリストをすべて読み込み
+allfiles <- Reduce(rbind, lapply(file_list,  read.csv, fileEncoding="UTF-8-BOM")) # バインドしながらリストをすべて読み込み
 allfiles[is.na(allfiles)] <- 0
 # 試験名と施設名を繋ぐ変数の導出（CMTRT_HP）
 allfiles$CMTRT_HP <- paste0(allfiles$試験名, "_", allfiles$施設科名)
@@ -62,7 +62,7 @@ ads0$施設名 <- sub("^.*._", "", ads0$試験施設名)
 ads <- ads0[,c(6, 7, 2, 5, 3, 4)]
 
 # 試験名をforで回すためにリストにする
-list_trial <- levels(allfiles$試験名)
+list_trial <- levels(as.factor(allfiles$試験名))
 
 # データ出力
 setwd(paste0(prtpath, "/output"))
@@ -71,3 +71,4 @@ for(i in 1:length(list_trial)){
   ds <- ds[order(ds$症例登録数, decreasing=T), ]
   write.csv(ds, paste0(list_trial[i], "_performance.csv" ), row.names = F)
 }
+
