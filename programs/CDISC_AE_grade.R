@@ -4,16 +4,16 @@
 # 2021/8/4 更新
 # 入力ファイル格納場所、リスク分類または割付けがあるかを指定
 # *********************************
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/45_ALL-Ph18/11.03.03 中間解析用生データ/2021/ALL-Ph18_cdisc_210824_1520"
-kTrialTitle  <- "ALL-Ph18"
-ctcae_version <- "v4.0"　# CTCAEのバージョンを入力する　
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/第1回/レポート作成用ファイル/Grade 頻度集計/テスト"
+kTrialTitle  <- "ALL-B19"
+ctcae_version <- "v5.0"　# CTCAEのバージョンを入力する　
 # armで分けて集計するか あり: YES, なし: NO
 arm <- "YES"　
-## arm が "YES"の場合、DMドメインのCSVファイルはあるか。　# あり: YES, なし: NO
+# ## arm が "YES"の場合、DMドメインのCSVファイルはあるか。　# あり: YES, なし: NO
 dm_domain <- "NO"
-###　arm が "YES"の場合且つdm_domainが"NO"の場合、読み込むCSVダウンロードファイル名と、変数名を設定
-kCsv <- "ALL-Ph18_risk2_210824_1513.csv"
-kArm <- "キメラ.MRD"
+# ###　arm が "YES"の場合且つdm_domainが"NO"の場合、読み込むCSVダウンロードファイル名と、変数名を設定
+kCsv <- "allocation_ALL-B19_220330_1106.csv"
+kArm <- "確定リスク報告"
 
 # *********************************
 kToday <- Sys.Date()
@@ -101,13 +101,13 @@ if(arm == "NO"){ 　# リスク分類なし、割付なしの場合の処理
     df_merge2 <- df_merge1[is.na(df_merge1$MedDRA.Code),] # CTCAEにないもののGroup
     df_merge3 <- df_merge1[!is.na(df_merge1$MedDRA.Code),] # CTCAEにあるもののGroup
 
-    df_merge3$Grade3 <- ifelse(df_merge3$Grade.3 == " -", " -", df_merge3$Grade3)
-    df_merge3$Grade4 <- ifelse(df_merge3$Grade.4 == " -", " -", df_merge3$Grade4)
-    df_merge3$Grade5 <- ifelse(df_merge3$Grade.5 == " -", " -", df_merge3$Grade5)  # CTCAEで定義されていないものは"-"にする
+    df_merge3$Grade3 <- ifelse(df_merge3$Grade.3 == "-", "-", df_merge3$Grade3)
+    df_merge3$Grade4 <- ifelse(df_merge3$Grade.4 == "-", "-", df_merge3$Grade4)
+    df_merge3$Grade5 <- ifelse(df_merge3$Grade.5 == "-", "-", df_merge3$Grade5)  # CTCAEで定義されていないものは"-"にする
 
-    df_merge3$Grade3.percent <- ifelse(df_merge3$Grade.3 == " -", " -", df_merge3$Grade3.percent)
-    df_merge3$Grade4.percent <- ifelse(df_merge3$Grade.4 == " -", " -", df_merge3$Grade4.percent)
-    df_merge3$Grade5.percent <- ifelse(df_merge3$Grade.5 == " -", " -", df_merge3$Grade5.percent) # CTCAEで定義されていないものは"-"にする
+    df_merge3$Grade3.percent <- ifelse(df_merge3$Grade.3 == "-", "-", df_merge3$Grade3.percent)
+    df_merge3$Grade4.percent <- ifelse(df_merge3$Grade.4 == "-", "-", df_merge3$Grade4.percent)
+    df_merge3$Grade5.percent <- ifelse(df_merge3$Grade.5 == "-", "-", df_merge3$Grade5.percent) # CTCAEで定義されていないものは"-"にする
 
     df_merge <- rbind(df_merge3, df_merge2)
 
@@ -160,13 +160,13 @@ if(arm == "NO"){ 　# リスク分類なし、割付なしの場合の処理
       df_merge2 <- df_merge1[is.na(df_merge1$MedDRA.Code),] # CTCAEにないもののGroup
       df_merge3 <- df_merge1[!is.na(df_merge1$MedDRA.Code),] # CTCAEにあるもののGroup
 
-      df_merge3$Grade3 <- ifelse(df_merge3$Grade.3 == " -", " -", df_merge3$Grade3)
-      df_merge3$Grade4 <- ifelse(df_merge3$Grade.4 == " -", " -", df_merge3$Grade4)
-      df_merge3$Grade5 <- ifelse(df_merge3$Grade.5 == " -", " -", df_merge3$Grade5)  # CTCAEで定義されていないものは"-"にする
+      df_merge3$Grade3 <- ifelse(df_merge3$Grade.3 == "-", "-", df_merge3$Grade3)
+      df_merge3$Grade4 <- ifelse(df_merge3$Grade.4 == "-", "-", df_merge3$Grade4)
+      df_merge3$Grade5 <- ifelse(df_merge3$Grade.5 == "-", "-", df_merge3$Grade5)  # CTCAEで定義されていないものは"-"にする
 
-      df_merge3$Grade3.percent <- ifelse(df_merge3$Grade.3 == " -", " -", df_merge3$Grade3.percent)
-      df_merge3$Grade4.percent <- ifelse(df_merge3$Grade.4 == " -", " -", df_merge3$Grade4.percent)
-      df_merge3$Grade5.percent <- ifelse(df_merge3$Grade.5 == " -", " -", df_merge3$Grade5.percent) # CTCAEで定義されていないものは"-"にする
+      df_merge3$Grade3.percent <- ifelse(df_merge3$Grade.3 == "-", "-", df_merge3$Grade3.percent)
+      df_merge3$Grade4.percent <- ifelse(df_merge3$Grade.4 == "-", "-", df_merge3$Grade4.percent)
+      df_merge3$Grade5.percent <- ifelse(df_merge3$Grade.5 == "-", "-", df_merge3$Grade5.percent) # CTCAEで定義されていないものは"-"にする
 
       df_merge <- rbind(df_merge3, df_merge2)
 
