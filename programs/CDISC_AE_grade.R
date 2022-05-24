@@ -8,7 +8,7 @@ prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03
 kTrialTitle  <- "ALL-B19"
 ctcae_version <- "v5.0"　# CTCAEのバージョンを入力する　
 # armで分けて集計するか あり: YES, なし: NO
-arm <- "YES"　
+arm <- "NO"　
 # ## arm が "YES"の場合、DMドメインのCSVファイルはあるか。　# あり: YES, なし: NO
 dm_domain <- "NO"
 # ###　arm が "YES"の場合且つdm_domainが"NO"の場合、読み込むCSVダウンロードファイル名と、変数名を設定
@@ -17,6 +17,8 @@ kArm <- "確定リスク報告"
 
 # *********************************
 kToday <- Sys.Date()
+library(tidyverse)
+
 # Gradeごとにデータを抽出し、クロス集計を行い、成型するための関数を設定
 DataShaping <- function(grade){
   dxt_grade <- subset(dxt, dxt$FAORRES == grade)
@@ -33,9 +35,9 @@ rawdatapath <- paste0(prtpath, "/rawdata/")
 file_list <- list.files(rawdatapath)
 dm_index <- grep("DM", file_list)  # DM.csvの存在を確認
 if(length(dm_index > 0)) {
-  DM <- read.csv(paste0(rawdatapath, "DM.csv"), na.strings = c(""), as.is=T, fileEncoding="UTF-8-BOM")
+  DM <- read_csv(paste0(rawdatapath, "DM.csv"))
 } else {
-  base_csv <- read.csv(paste0(rawdatapath, kCsv), na.strings = c(""), as.is=T, fileEncoding="UTF-8-BOM")
+  base_csv <- read_csv(paste0(rawdatapath, kCsv))
   # base_csv$kArm <- ifelse(base_csv$Ig.TCR.MRD == "FCM-MRDで代用", base_csv$FCM.MRD, base_csv$Ig.TCR.MRD) #Ph18のリスク1で集計のときは使用
   # dxt_csv <- base_csv[, c("症例登録番号", "kArm")] #Ph18のリスク1で集計のときは使用
   dxt_csv <- base_csv[, c("症例登録番号", kArm)] #Ph18のリスク1で集計のとき以外の集計のときは使用
@@ -48,7 +50,7 @@ if(length(dm_index > 0)) {
   colnames(dxt_csv)[2] <-  "ARM"
   DM <- dxt_csv
 }
-FA <- read.csv(paste0(rawdatapath, "FA.csv"), na.strings = c(""), as.is=T, fileEncoding="UTF-8-BOM")
+FA <- read_csv(paste0(rawdatapath, "FA.csv"))
 
 # outputのフォルダを作成
 setwd(prtpath)
@@ -56,14 +58,17 @@ dir.create("output")
 
 setwd("~/GitHub/Monitoring-Report/input")
 if(ctcae_version == "v4.0") {
-  CTCAE <- read.csv("CTCAE_4.03.csv", na.strings = c(""), as.is=T, fileEncoding="UTF-8")
+  CTCAE <- read_csv("CTCAE_4.03.csv")
 } else {
-  CTCAE <- read.csv("CTCAEv5.csv", na.strings = c(""), as.is=T, fileEncoding="UTF-8-BOM")
+  CTCAE <- read_csv("CTCAEv5.csv")
 }
 CTCAE$row_number <- rownames(CTCAE)
 
 # 処理開始
 FA <- FA[FA$FATEST == "Grade", ] #FAから、Gradeのみを取り出す
+
+FA$FAOBJ <- ifelse(FA$FAOBJ=="Febrile Neutropenia",
+                           "Febrile neutropenia",FA$FAOBJ) # R言語は小文字と大文字を「異なる文字」として区別して扱うので置き換える
 
 if(arm == "NO"){ 　# リスク分類なし、割付なしの場合の処理
   list_FASPID <- levels(as.factor(FA$FASPID))  #  治療コースのリスト
