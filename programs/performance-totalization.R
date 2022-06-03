@@ -5,6 +5,8 @@
 # 作成者: kazumi takeuchi, mamiko yonejima
 # 変更内容：定モニのスタイル変更に伴う変更
 
+library(tidyverse)
+
 # 関数の設定
 # ｂｙででできた集計値をデータフレームに変換する関数
 ConvertDataframe <- function(dataframe){
@@ -15,16 +17,18 @@ ConvertDataframe <- function(dataframe){
 
 # config
 # pathの設定
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/TUBA/TUBA_performance/20211201"
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/TORG/TORG_performance/20220601"
 
 # output フォルダの作成
-setwd(prtpath)
-dir.create("./output")
+outputpath <- paste0(prtpath, "/output")
+if (!(file.exists(outputpath))){
+  dir.create(outputpath)
+}
 
 # rawdataのリストを作成
 file_list <- list.files(paste0(prtpath, "/rawdata"))
 setwd(paste0(prtpath, "/rawdata"))
-allfiles <- Reduce(rbind, lapply(file_list,  read.csv, fileEncoding="UTF-8-BOM")) # バインドしながらリストをすべて読み込み
+allfiles <- Reduce(rbind, lapply(file_list,  read_csv)) # バインドしながらリストをすべて読み込み
 allfiles[is.na(allfiles)] <- 0
 # 試験名と施設名を繋ぐ変数の導出（CMTRT_HP）
 allfiles$CMTRT_HP <- paste0(allfiles$試験名, "_", allfiles$施設科名)
