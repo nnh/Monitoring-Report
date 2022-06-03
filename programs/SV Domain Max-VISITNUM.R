@@ -40,7 +40,7 @@ if(i == 1){
 }}
 
 setwd(outputpath)
-write.csv(result, paste0(kTrialTitle, "  Max VISITNUM", kToday, ".csv" ), row.names = F)
+write.csv(result, paste0(kTrialTitle, "  Max VISITNUM", kToday, ".csv" ), row.names = F, na = '')
 
 
 
