@@ -3,12 +3,12 @@
 # MAMIKO YONEJIMA
 
 # config*******
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/第1回/データクリーニング"
-kTrialTitle  <- "ALL-B19"
-Specified <- 1 # 指定項目数を入力
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/51_ALL-T19/10.03.10 データレビュー書/第1回/データクリーニング"
+kTrialTitle  <- "ALL-T19"
+Specified <- 2 # 指定項目数を入力
 # inputデータには散布図を書きたい検査のLBTESTCDを指定し、rawdataと同じ階層のフォルダに格納する
-# LBドメインから、治療コースは問わず、特定の検査結果のみを抽出したい場合、input1で[指定項目1]に抽出したい検査のTESTCDを指定する
-# LBドメインから、治療コースを指定して、特定の検査結果のみを抽出したい場合、input2で[指定項目1]に抽出したい検査のTESTCDを指定, [指定項目2]にコース名(例: baseline: SPIDに格納されている名であること)を準備する
+# LBドメインから、治療コースは問わず、特定の検査結果のみを抽出したい場合、detail1で[指定項目1]に抽出したい検査のTESTCDを指定する
+# LBドメインから、治療コースを指定して、特定の検査結果のみを抽出したい場合、detail2で[指定項目1]に抽出したい検査のTESTCDを指定, [指定項目2]にコース名(例: baseline: SPIDに格納されている名であること)を準備する
 #**************
 kToday <- Sys.Date()
 library(tidyverse)
@@ -48,7 +48,7 @@ if(Specified == 1){
       testcode <- detail$指定項目1[i]
       spid <- detail$指定項目2[i]
       lb_dxt <-lb[lb$LBTESTCD == testcode & lb$LBSPID == spid, ]
-      
+
       setwd(outputpath)
       write.csv(lb_dxt, paste0(spid, testcode, kToday, ".csv" ), row.names = F, na = '')
       png(paste(spid, testcode, kToday, ".png"), width = 1000, height = 1000)

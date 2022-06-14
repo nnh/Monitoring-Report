@@ -3,8 +3,8 @@
 # MAMIKO YONEJIMA
 
 # config*******
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/第1回/データクリーニング"
-kTrialTitle  <- "ALL-B19"
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/51_ALL-T19/10.03.10 データレビュー書/第1回/データクリーニング"
+kTrialTitle  <- "ALL-T19"
 #**************
 kToday <- Sys.Date()
 library(tidyverse)
@@ -27,7 +27,7 @@ for(i in 1:length(detail$指定項目1)){
   data <- read_csv(paste0(rawdatapath, detail$指定項目1[i], ".csv"))
   valiable <- paste0("data$", colnames(data)[grep("SPID", colnames(data))])
   result <- data[eval(parse(text = paste0(valiable))) == detail$指定項目2[i], ]
-  write.csv(result, 
+  write.csv(result,
             paste0(outputpath,"/", kTrialTitle, " Extracted ", detail$指定項目1[i], detail$指定項目2[i], kToday, ".csv" )
             , row.names = F, na = '')
 }
