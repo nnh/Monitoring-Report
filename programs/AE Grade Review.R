@@ -3,7 +3,7 @@
 # MAMIKO YONEJIMA
 
 # config*******
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/第1回/データクリーニング"
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/有害事象Gradeレビュー/ALL-B19_cdisc_220621_1309"
 kTrialTitle  <- "ALL-B19"
 ctcae_version <- "v5.0"　# CTCAEのバージョンを入力する
 #**************
