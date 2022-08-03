@@ -4,15 +4,15 @@
 # 2021/8/4 更新
 # 入力ファイル格納場所、リスク分類または割付けがあるかを指定
 # *********************************
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/第1回/レポート作成用ファイル/Grade 頻度集計/テスト"
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/第1回/レポート作成用ファイル/Grade 頻度集計"
 kTrialTitle  <- "ALL-B19"
 ctcae_version <- "v5.0"　# CTCAEのバージョンを入力する　
 # armで分けて集計するか あり: YES, なし: NO
-arm <- "NO"　
+arm <- "YES"　
 # ## arm が "YES"の場合、DMドメインのCSVファイルはあるか。　# あり: YES, なし: NO
 dm_domain <- "NO"
 # ###　arm が "YES"の場合且つdm_domainが"NO"の場合、読み込むCSVダウンロードファイル名と、変数名を設定
-kCsv <- "allocation_ALL-B19_220330_1106.csv"
+kCsv <- "allocation_ALL-B19_220801_1525.csv"
 kArm <- "確定リスク報告"
 
 # *********************************
