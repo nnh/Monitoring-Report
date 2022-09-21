@@ -1,4 +1,5 @@
 # LBドメインから指定の検査項目について症例ごとの最終検査日を抽出
+# 例として、複数のタイムポイントで実施される特定の検査項目（LBドメインで取得）の中から直近の（VISITNUMが一番大きい）検査の情報のみを抽出したい場合に使用
 # 2022/5/20
 # MAMIKO YONEJIMA
 
@@ -31,13 +32,13 @@ result <- data.frame()
 
 for(i in 1:length(list)){
   ds <- lb[lb$USUBJID==list[i], ]　# 症例番号をリスト化
-  
+
   if(nrow(ds) == 1) {　　# データが１行の時はそれを採用
     ds_max <- ds
   } else {
     ds_max <- ds[which.max(ds$VISITNUM),]  # 各症例の提出済報告書から、VISITNUMが最大のものを抽出
   }
-  
+
   if(i == 1){
     result <- ds_max
   } else {
