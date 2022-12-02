@@ -17,7 +17,7 @@ ConvertDataframe <- function(dataframe){
 
 # config
 # pathの設定
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/TORG/TORG_performance/20220601"
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/TORG/TORG_performance/20221201"
 
 # output フォルダの作成
 outputpath <- paste0(prtpath, "/output")
