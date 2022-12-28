@@ -4,9 +4,9 @@
 # MAMIKO YONEJIMA
 
 # config*******
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/51_ALL-T19/10.03.10 データレビュー書/第1回/データクリーニング"
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/51_ALL-T19/10.03.10 データレビュー書/第1回から第2回の間(データクリーニング)"
 kTrialTitle  <- "ALL-T19"
-kLBTESTCD <- "ASPAC"
+kLBTESTCD <- "ASPAC" #抽出したい検査のTESTCDを指定
 #**************
 kToday <- Sys.Date()
 library(tidyverse)
@@ -23,7 +23,7 @@ if (!(file.exists(outputpath))){
 
 # 指定されたテストコードのデータを抽出する
 # 未実施の場合、検査日は入力されないため対象から除く
-lb <- lb_raw[lb_raw$LBTESTCD == kLBTESTCD && is.na(lb_raw$LBSTAT), ]
+lb <- lb_raw[lb_raw$LBTESTCD == kLBTESTCD & is.na(lb_raw$LBSTAT), ]
 
 # 症例番号をリスト化
 list <- levels(as.factor(lb$USUBJID))
@@ -46,6 +46,6 @@ for(i in 1:length(list)){
   }}
 
 setwd(outputpath)
-write.csv(result, paste0(kTrialTitle," ", kLBTESTCD, " Max VISITNUM", kToday, ".csv" ), row.names = F)
+write.csv(result, paste0(kTrialTitle," ", kLBTESTCD, " Max VISITNUM", kToday, ".csv" ), row.names = F, na = '')
 
 
