@@ -5,15 +5,15 @@
 # 2021/8/4 更新
 # 入力ファイル格納場所、リスク分類または割付けがあるかを指定
 # *********************************
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/45_ALL-Ph18/11.03.03 中間解析用生データ/2022/ALL-Ph18_cdisc_220801_1224"
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/45_ALL-Ph18/11.03.03 中間解析用生データ/2023/ALL-Ph18_cdisc_230216_1543"
 kTrialTitle  <- "ALL-Ph18"
 ctcae_version <- "v4.03"　# CTCAEのバージョンを入力する　
 # armで分けて集計するか あり: YES, なし: NO
-arm <- "YES"　
-# ## arm が "YES"の場合、DMドメインのCSVファイルはあるか。　# あり: YES, なし: NO
+arm <- "YES"
+# # ## arm が "YES"の場合、DMドメインのCSVファイルはあるか。　# あり: YES, なし: NO
 dm_domain <- "NO"
-# ###　arm が "YES"の場合且つdm_domainが"NO"の場合、読み込むCSVダウンロードファイル名と、変数名を設定
-kCsv <- "ALL-Ph18_risk2_220801_1221.csv"
+###　arm が "YES"の場合且つdm_domainが"NO"の場合、読み込むCSVダウンロードファイル名と、変数名を設定
+kCsv <- "ALL-Ph18_risk2_230216_1540.csv"
 kArm <- "キメラ.MRD"
 
 # *********************************
@@ -42,8 +42,8 @@ if(length(dm_index > 0)) {
   # colnames(base_csv)[c(19, 21)] <- c("Ig.TCR.MRD",  "FCM.MRD") #Ph18のリスク1で集計のときは使用
   # base_csv$kArm <- ifelse(base_csv$Ig.TCR.MRD == "FCM-MRDで代用", base_csv$FCM.MRD, base_csv$Ig.TCR.MRD) #Ph18のリスク1で集計のときは使用
   # dxt_csv <- base_csv[, c("症例登録番号", "kArm")] #Ph18のリスク1で集計のときは使用
-  # colnames(base_csv)[13] <- "キメラ.MRD" #Ph18でのみ使用　Ph18のリスク1で集計のとき以外の集計のときは使用
-  # dxt_csv <- base_csv[, c("症例登録番号", kArm)] #Ph18のリスク1で集計のとき以外の集計のときは使用
+  colnames(base_csv)[13] <- "キメラ.MRD" #Ph18でのみ使用　Ph18のリスク1で集計のとき以外の集計のときは使用
+  dxt_csv <- base_csv[, c("症例登録番号", kArm)] #Ph18のリスク1で集計のとき以外の集計のときは使用
   dxt_csv$症例登録番号 <- ifelse(nchar(dxt_csv$症例登録番号) == 1, paste0("000",dxt_csv$症例登録番号),
                            ifelse(nchar(dxt_csv$症例登録番号) == 2, paste0("00",dxt_csv$症例登録番号),
                                   ifelse(nchar(dxt_csv$症例登録番号) == 3, paste0("0",dxt_csv$症例登録番号),dxt_csv$症例登録番号)))
