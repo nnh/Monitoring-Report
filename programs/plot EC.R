@@ -26,20 +26,19 @@ dxt_ec <- ec[ec$VISITNUM == kVisitNum, ] # kVisitNumで指定したコースの�
 list <- levels(as.factor(dxt_ec$USUBJID)) # 症例登録番号をリスト化する
 
 for(i in 1:length(list)) {
-dxt_usubjid <- dxt_ec[dxt_ec$USUBJID == list[i], ]
-dxt_usubjid <- dxt_usubjid[order(dxt_usubjid$ECSTDTC, decreasing = F), ] # 投与日を昇順に並べ替える
+  dxt_usubjid <- dxt_ec[dxt_ec$USUBJID == list[i], ]
+  dxt_usubjid <- dxt_usubjid[order(dxt_usubjid$ECSTDTC, decreasing = F), ] # 投与日を昇順に並べ替える
 
-setwd(outputpath)
+  setwd(outputpath)
 
-p <- ggplot(data = dxt_usubjid, mapping = aes(x = as.factor(dxt_usubjid$ECSTDTC), y = dxt_usubjid$ECDOSE)) +
-  geom_point() +
-  scale_y_continuous(limits = c(0, NA)) +
-  xlab ("投与開始日") +
-  ylab ("維持療法 6-MP投与量 [mg/m2]") +
-  theme(axis.text.x = element_text(angle = 90))
+  p <- ggplot(data = dxt_usubjid, mapping = aes(x = as.factor(dxt_usubjid$ECSTDTC), y = dxt_usubjid$ECDOSE)) +
+    geom_point() +
+    scale_y_continuous(limits = c(0, NA)) +
+    xlab ("投与開始日") +
+    ylab ("維持療法 6-MP投与量 [mg/m2]") +
+    theme(axis.text.x = element_text(angle = 90))
 
-ggsave(paste(list[i], kToday, ".png"), plot = p, dpi = 100, width = 6.4, height = 4.8)
+  ggsave(paste(list[i], kToday, ".png"), plot = p, dpi = 100, width = 6.4, height = 4.8)
 
 }
-
 
