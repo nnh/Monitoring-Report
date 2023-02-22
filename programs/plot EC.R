@@ -38,7 +38,7 @@ for(i in 1:length(list)) {
     ylab ("維持療法 6-MP投与量 [mg/m2]") +
     theme(axis.text.x = element_text(angle = 90))
 
-  ggsave(paste(list[i], kToday, ".png"), plot = p, dpi = 100, width = 6.4, height = 4.8)
+  ggsave(paste(list[i], "maintenance 6-MP", kToday, ".png"), plot = p, dpi = 100, width = 6.4, height = 4.8)
 
 }
 
