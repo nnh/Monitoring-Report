@@ -14,6 +14,8 @@ library(ggplot2)
 # rawdataの読み込み
 rawdatapath <- paste0(prtpath, "/rawdata/")
 ec <- read_csv(paste0(rawdatapath, "EC.csv"))
+sv <- read_csv(paste0(rawdatapath, "SV.csv"))
+
 
 # 出力フォルダが存在しなければ作成
 outputpath <- paste0(prtpath, "/output")
@@ -42,3 +44,36 @@ for(i in 1:length(list)) {
 
 }
 
+###### 以下、
+# SVドメインから維持療法の開始日・終了日データを抽出し、「維持療法: 6-MP投与量報告」の投与開始日とマージする
+dxt_sv <- sv[sv$VISITNUM == kVisitNum, ] # kVisitNumで指定したコースのみを抽出する
+
+listsv <- levels(as.factor(dxt_sv$USUBJID)) # 症例登録番号をリスト化する
+
+# ECドメインの中にリストの症例の維持療法のデータがあるか確認する
+result <- NULL
+
+for(i in 1:length(listsv)) {
+if(nrow(dxt_ec[dxt_ec$USUBJID == listsv[i], ]) == 0){
+  df <- data.frame(
+  USUBJID = listsv[i],
+  ECSTDTC_first = "",
+  SVSTDTC = dxt_sv[dxt_sv$USUBJID == listsv[i], 7],
+  ECSTDTC_last = "",
+  SVENDTC = dxt_sv[dxt_sv$USUBJID == listsv[i], 8]
+  )
+} else {
+  dxt <- dxt_ec[dxt_ec$USUBJID == listsv[i], ]
+  df <- data.frame(
+    USUBJID = listsv[i],
+    ECSTDTC_first = dxt_ec[whitch.min(dxt$ECSTDTC) , 16],
+    SVSTDTC = dxt_sv[dxt_sv$USUBJID == listsv[i], 7],
+    ECSTDTC_last = dxt_ec[whitch.max(dxt$ECSTDTC) , 16],
+    SVENDTC = dxt_sv[dxt_sv$USUBJID == listsv[i], 8]
+  )
+}
+result <- rbind(result, df)
+}
+
+setwd(outputpath)
+write.csv(result, paste0(kTrialTitle, "  maintenance", kToday, ".csv" ), row.names = F, na = '')
