@@ -3,7 +3,7 @@
 # MAMIKO YONEJIMA
 
 # config*******
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/第1回-第2回の間(データクリーニング)/20230221"
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/第1回-第2回の間(データクリーニング)/20230301"
 kTrialTitle  <- "ALL-B19"
 kVisitNum <- 2300
 #**************
@@ -42,7 +42,13 @@ for(i in 1:length(list)) {
 
   ggsave(paste(list[i], "maintenance 6-MP", kToday, ".png"), plot = p, dpi = 100, width = 6.4, height = 4.8)
 
+  if(i == 1){
+    result <- dxt_usubjid
+  } else{
+    result <-rbind(result, dxt_usubjid)
+  }
 }
+write.csv(result, paste0(kTrialTitle, "  maintenance 6-MP", kToday, ".csv" ), row.names = F, na = '')
 
 ###### 以下、
 # SVドメインから維持療法の開始日・終了日データを抽出し、「維持療法: 6-MP投与量報告」の投与開始日とマージする
@@ -54,25 +60,25 @@ listsv <- levels(as.factor(dxt_sv$USUBJID)) # 症例登録番号をリスト化�
 result <- NULL
 
 for(i in 1:length(listsv)) {
-if(nrow(dxt_ec[dxt_ec$USUBJID == listsv[i], ]) == 0){
-  df <- data.frame(
-  USUBJID = listsv[i],
-  ECSTDTC_first = "",
-  SVSTDTC = dxt_sv[dxt_sv$USUBJID == listsv[i], 7],
-  ECSTDTC_last = "",
-  SVENDTC = dxt_sv[dxt_sv$USUBJID == listsv[i], 8]
-  )
-} else {
-  dxt <- dxt_ec[dxt_ec$USUBJID == listsv[i], ]
-  df <- data.frame(
-    USUBJID = listsv[i],
-    ECSTDTC_first = dxt_ec[whitch.min(dxt$ECSTDTC) , 16],
-    SVSTDTC = dxt_sv[dxt_sv$USUBJID == listsv[i], 7],
-    ECSTDTC_last = dxt_ec[whitch.max(dxt$ECSTDTC) , 16],
-    SVENDTC = dxt_sv[dxt_sv$USUBJID == listsv[i], 8]
-  )
-}
-result <- rbind(result, df)
+  if(nrow(dxt_ec[dxt_ec$USUBJID == listsv[i], ]) == 0){
+    df <- data.frame(
+      USUBJID = listsv[i],
+      ECSTDTC_first = "",
+      SVSTDTC = dxt_sv[dxt_sv$USUBJID == listsv[i], 7],
+      ECSTDTC_last = "",
+      SVENDTC = dxt_sv[dxt_sv$USUBJID == listsv[i], 8]
+    )
+  } else {
+    dxt <- dxt_ec[dxt_ec$USUBJID == listsv[i], ]
+    df <- data.frame(
+      USUBJID = listsv[i],
+      ECSTDTC_first = dxt_ec[whitch.min(dxt$ECSTDTC) , 16],
+      SVSTDTC = dxt_sv[dxt_sv$USUBJID == listsv[i], 7],
+      ECSTDTC_last = dxt_ec[whitch.max(dxt$ECSTDTC) , 16],
+      SVENDTC = dxt_sv[dxt_sv$USUBJID == listsv[i], 8]
+    )
+  }
+  result <- rbind(result, df)
 }
 
 setwd(outputpath)
