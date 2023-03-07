@@ -4,7 +4,7 @@
 # MAMIKO YONEJIMA
 
 # config*******
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/51_ALL-T19/10.03.10 データレビュー書/第1回から第2回の間(データクリーニング)"
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/51_ALL-T19/10.03.10 データレビュー書/第1回から第2回の間(データクリーニング)/20230310"
 #**************
 kToday <- Sys.Date()
 library(tidyverse)
@@ -37,19 +37,19 @@ list <- levels(as.factor(ec_ds$key))
 
 setwd(paste0(prtpath, "/output"))
 # 症例、薬剤ごとにCSVを出力する場合は、こちらを使用する
-for(i in 1:length(list)){
-  df <- ec_raw[ec_raw$key == list[i], ]
-  df <- df[order(df$VISITNUM, decreasing=F), ]
-  df <- df[,c(1:16)]
-if((nrow(df)==1) && (df$ECADJ != "Dosage Mistake")){
-  next
-}
-  if(df$ECTRT == "METHOTREXATE/CYTARABINE/PREDNISOLONE SODIUM SUCCINATE")
-  {
-    csv_name <- sub("METHOTREXATE/CYTARABINE/PREDNISOLONE SODIUM SUCCINATE", "TIT", list[i])
-    write.csv(df, paste0(csv_name, "_row_", nrow(df), ".csv" ), row.names = F, na = '')
-  } else {
-    write.csv(df, paste0(list[i], "_row_", nrow(df), ".csv" ), row.names = F, na = '')}}
+# for(i in 1:length(list)){
+#   df <- ec_raw[ec_raw$key == list[i], ]
+#   df <- df[order(df$VISITNUM, decreasing=F), ]
+#   df <- df[,c(1:16)]
+# if((nrow(df)==1) && (df$ECADJ != "Dosage Mistake")){
+#   next
+# }
+#   if(df$ECTRT == "METHOTREXATE/CYTARABINE/PREDNISOLONE SODIUM SUCCINATE")
+#   {
+#     csv_name <- sub("METHOTREXATE/CYTARABINE/PREDNISOLONE SODIUM SUCCINATE", "TIT", list[i])
+#     write.csv(df, paste0(csv_name, "_row_", nrow(df), ".csv" ), row.names = F, na = '')
+#   } else {
+#     write.csv(df, paste0(list[i], "_row_", nrow(df), ".csv" ), row.names = F, na = '')}}
 
 # 投与中止、投与量間違い症例の一覧を出力する
 df_matome <- NULL
@@ -65,47 +65,36 @@ for(i in 1:length(list)){
 write.csv(df_matome, "Drug Interrupted matome.csv" , row.names = F, na = '')
 
 #************#
-# # ALL-B19または、ALL-T19に特化した内容のため、通常は使用しない
-# # inputのデータフレームを作成する。薬剤中止理由と注目する有害事象の一覧。
-# input <- data.frame(
-#   reason = c("Drug Interrupted for Pancreatitis",
-#              "Drug Interrupted for Allergic reaction",
-#              "Drug Interrupted for Diabetes",
-#              "Drug Interrupted for Thromboembolic event",
-#              "Drug Interrupted for Liver disorder",
-#              "Drug Interrupted for Liver disorder",
-#              "Drug Interrupted for Hyperlipidaemia",
-#              "Drug Interrupted for Hyperlipidaemia"
-#              ),
-#   ae = c("Pancreatitis",
-#          "Allergic reaction",
-#          "Hyperglycemia",
-#          "Thromboembolic event",
-#          "Alanine aminotransferase increa",
-#          "Aspartate aminotransferase increased",
-#          "Cholesterol high",
-#          "Hypertriglyceridemia"
-#          )
-# )
-# # ECから中止理由毎に抽出
-# for(j in 1:length(input)){
-#   rsn <- ec_interrupted[ec_interrupted$ECADJ == input$reason[j],]
-#   rsn$key <- paste0(rsn$USUBJID, "_", rsn$VISITNUM)
-#   dxt_rsn <- rsn[,c("ECTRT","ECADJ","key")]
-# # 症例番号のリストを作成
-#   list <- levels(as.factor(rsn$USUBJID))
-#   setwd(paste0(prtpath, "/output"))
-#   for(i in 1:length(list)){
-#     # 中止理由毎に注目する有害事象名をFAより抽出する
-#     ae <- fa_raw[((fa_raw$USUBJID == list[i]) & (fa_raw$FAOBJ == input$ae[j])), ]
-#     # 有害事象のGradeと中止理由をマージする
-#     ae$key <- paste0(ae$USUBJID, "_", ae$VISITNUM)
-#     ds1 <- merge(ae, dxt_rsn, by = "key", all.x = T)
-#     ds2 <- ds1[order(ds1$VISITNUM, decreasing=F), ]
-#     result <- ds2[,-1]
-#     write.csv(result, paste0(list[i],"_", input$ae[j],".csv") , row.names = F, na = '')
-#   }}
-#
+#*# ALL-B19または、ALL-T19に特化した内容のため、通常は使用しない
+# inputのデータを作成する。
+ae <- c(
+  "Pancreatitis",
+  "Allergic reaction",
+  "Anaphylaxis",
+  "Hyperglycemia",
+  "Thromboembolic event",
+  "Alanine aminotransferase increased",
+  "Aspartate aminotransferase increased",
+  "Cholesterol high",
+  "Hypertriglyceridemia")
+
+df_matome$key <- paste0(df_matome$USUBJID, "_", df_matome$VISITNUM)
+fa_raw$key <- paste0(fa_raw$USUBJID, "_", fa_raw$VISITNUM)
+
+# FAドメインから変数"ae"に入っている事象名の有害事象を抽出する
+for(i in 1:(length(ae))){
+  fa_ext_1st <- fa_raw[fa_raw$FAOBJ == ae[i], c("key", "FAORRES")]
+  colnames(fa_ext_1st)[c(2,3)] <- c(ae[i], paste0(ae[i],"_Grade"))
+  if(i == 1){
+  result <- merge(df_matome, fa_ext_1st, by = "key", all.x = T)
+  } else{
+  result <- merge(result, fa_ext_1st, by = "key", all.x = T)
+  }
+}
+result <- result[, -1]  #TODO 症例ごと、VISIT番号昇順でならべ変える
+write.csv(result, "Drug Interrupted AE grade matome.csv" , row.names = F, na = '')
+
+
 # #************#
 # # ALL-T19に特化した内容のため、通常は使用しない
 # # L-asp活性が2回連続して0.1U/ｍL未満であった場合、不活化(silent inactivation, SI)と定義
