@@ -91,8 +91,21 @@ for(i in 1:(length(ae))){
     result <- merge(result, fa_ext_1st, by = "key", all.x = T)
   }
 }
-result <- result[, -1]  #TODO 症例ごと、VISIT番号昇順でならべ変える
-write.csv(result, "Drug Interrupted AE grade matome.csv" , row.names = F, na = '')
+result <- result[, -1]
+
+#症例ごと、VISIT番号昇順でならべ変える
+
+list <- levels(as.factor(result$USUBJID))
+for(i in 1:length(list)){
+  df <- result[result$USUBJID == list[i], ]
+  df <- df[order(df$VISITNUM, decreasing=F), ]
+  if(i == 1){
+    result_inc <- df
+  }else{
+    result_inc <- rbind(result_inc, df)
+  }
+}
+write.csv(result_inc, "Drug Interrupted AEgrade matome.csv" , row.names = F, na = '')
 
 
 # #************#
