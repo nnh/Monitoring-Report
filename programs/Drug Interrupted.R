@@ -86,9 +86,9 @@ for(i in 1:(length(ae))){
   fa_ext_1st <- fa_raw[fa_raw$FAOBJ == ae[i], c("key", "FAORRES")]
   colnames(fa_ext_1st)[c(2,3)] <- c(ae[i], paste0(ae[i],"_Grade"))
   if(i == 1){
-  result <- merge(df_matome, fa_ext_1st, by = "key", all.x = T)
+    result <- merge(df_matome, fa_ext_1st, by = "key", all.x = T)
   } else{
-  result <- merge(result, fa_ext_1st, by = "key", all.x = T)
+    result <- merge(result, fa_ext_1st, by = "key", all.x = T)
   }
 }
 result <- result[, -1]  #TODO 症例ごと、VISIT番号昇順でならべ変える
