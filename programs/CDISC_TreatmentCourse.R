@@ -40,4 +40,3 @@ for(i in 1:length(detail$指定項目1)){
             paste0(outputpath,"/", kTrialTitle, " Extract ", detail$指定項目2[i], " ", kToday, ".csv" )
             , row.names = F, na = '')
 }
-
