@@ -4,7 +4,7 @@
 # MAMIKO YONEJIMA
 
 # config*******
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/51_ALL-T19/10.03.10 データレビュー書/第1回から第2回の間(データクリーニング)/20230310"
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/第1回-第2回の間(データクリーニング)/20230511"
 #**************
 kToday <- Sys.Date()
 library(tidyverse)
@@ -91,13 +91,15 @@ for(i in 1:(length(ae))){
     result <- merge(result, fa_ext_1st, by = "key", all.x = T)
   }
 }
-result <- result[, -1]
+
+result[, 1] <- paste0(result$USUBJID, "_", result$ECTRT)
 
 #症例ごと、VISIT番号昇順でならべ変える
 
-list <- levels(as.factor(result$USUBJID))
+list <- levels(as.factor(result$key))
+
 for(i in 1:length(list)){
-  df <- result[result$USUBJID == list[i], ]
+  df <- result[result$key == list[i], ]
   df <- df[order(df$VISITNUM, decreasing=F), ]
   if(i == 1){
     result_inc <- df
@@ -105,6 +107,8 @@ for(i in 1:length(list)){
     result_inc <- rbind(result_inc, df)
   }
 }
+
+result_inc <- result_inc[, -1]
 write.csv(result_inc, "Drug Interrupted AEgrade matome.csv" , row.names = F, na = '')
 
 
