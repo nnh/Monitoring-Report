@@ -4,7 +4,7 @@
 # MAMIKO YONEJIMA
 
 # config*******
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/第1回-第2回の間(データクリーニング)/20230511"
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/51_ALL-T19/10.03.10 データレビュー書/第1回から第2回の間(データクリーニング)/20230519"
 #**************
 kToday <- Sys.Date()
 library(tidyverse)
@@ -112,7 +112,7 @@ result_inc <- result_inc[, -1]
 write.csv(result_inc, "Drug Interrupted AEgrade matome.csv" , row.names = F, na = '')
 
 
-# #************#
+# # #************#
 # # ALL-T19に特化した内容のため、通常は使用しない
 # # L-asp活性が2回連続して0.1U/ｍL未満であった場合、不活化(silent inactivation, SI)と定義
 # lb_aspac <- lb_raw[lb_raw$LBTESTCD == "ASPAC", ]
@@ -125,7 +125,12 @@ write.csv(result_inc, "Drug Interrupted AEgrade matome.csv" , row.names = F, na 
 # for(i in 1:length(list)){
 #   df <- lb_aspac[lb_aspac$USUBJID == list[i], ]
 #   df <- df[order(df$VISITNUM, decreasing=F), ]
-#   write.csv(df, paste0(list[i], "_ASPAC_", ".csv" ), row.names = F, na = '')
+#   if(i == 1){
+#     resultsi <- df
+#   } else {
+#     resultsi <- rbind(resultsi, df)
+#   }
+#   write.csv(resultsi, "ASPAC.csv", row.names = F, na = '')
 # } 　# 0.1未満のデータがある場合、その症例のL-asp活性測定値を抽出する
 #
 # if(nrow((subset(ec_raw, ec_raw$ECADJ == "Drug Interrupted for Silent Inactivation"))) == 0){
