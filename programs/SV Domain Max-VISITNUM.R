@@ -1,10 +1,12 @@
 # SVドメインから症例ごとの最終コースの投与開始日を抽出
+# SVドメインから指定したVISITNUMを抽出
 # 2022/5/20
 # MAMIKO YONEJIMA
 
 # config*******
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/51_ALL-T19/10.03.10 データレビュー書/第1回/データクリーニング"
-kTrialTitle  <- "ALL-T19"
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/第1回-第2回の間(データクリーニング)/20230511"
+kTrialTitle  <- "ALL-B19"
+kVisitNum <- 2100
 #**************
 kToday <- Sys.Date()
 library(tidyverse)
@@ -19,6 +21,7 @@ if (!(file.exists(outputpath))){
   dir.create(outputpath)
 }
 
+# SVドメインから症例ごとの最終コースの投与開始日を抽出
 # 症例番号をリスト化
 list <- levels(as.factor(sv$USUBJID))
 
@@ -42,5 +45,7 @@ if(i == 1){
 setwd(outputpath)
 write.csv(result, paste0(kTrialTitle, "  Max VISITNUM", kToday, ".csv" ), row.names = F, na = '')
 
-
-
+# SVドメインから指定したVISITNUMを抽出
+dxt_sv <- sv[sv$VISITNUM == kVisitNum, ]
+setwd(outputpath)
+write.csv(dxt_sv, paste0(kTrialTitle, " VISITNUM ", kVisitNum, ".csv" ), row.names = F, na = '')
