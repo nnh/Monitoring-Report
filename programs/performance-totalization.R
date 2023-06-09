@@ -17,7 +17,7 @@ ConvertDataframe <- function(dataframe){
 
 # config
 # pathの設定
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/TORG/TORG_performance/20221201"
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/Others/kanricteph_performance/20230601"
 
 # output フォルダの作成
 outputpath <- paste0(prtpath, "/output")
@@ -73,6 +73,6 @@ setwd(paste0(prtpath, "/output"))
 for(i in 1:length(list_trial)){
   ds<- ads[ads$試験名==list_trial[i],]
   ds <- ds[order(ds$症例登録数, decreasing=T), ]
-  write.csv(ds, paste0(list_trial[i], "_performance.csv" ), row.names = F)
+  write.csv(ds, paste0(list_trial[i], "_performance.csv" ), row.names = F, fileEncoding="CP932")
 }
 
