@@ -3,9 +3,10 @@
 # MAMIKO YONEJIMA
 
 # config*******
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/第1回-第2回の間(データクリーニング)/20230301"
-kTrialTitle  <- "ALL-B19"
-kVisitNum <- 2300
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/51_ALL-T19/10.03.10 データレビュー書/第2回/20230601"
+kTrialTitle  <- "ALL-T19"
+kVisitNum <- NA  #B19では2300を指定。T19で6MPの繰り返しシートにVISITNUMを置いていないためNAを指定。
+
 #**************
 kToday <- Sys.Date()
 library(tidyverse)
@@ -23,7 +24,11 @@ if (!(file.exists(outputpath))){
   dir.create(outputpath)
 }
 
+if(is.na(kVisitNum)){
+  dxt_ec <- ec[is.na(ec$VISITNUM), ] # kVisitNumが指定されていないとき（NAのとき）は、VISITNUMが空欄のデータを抽出する
+} else {
 dxt_ec <- ec[ec$VISITNUM == kVisitNum, ] # kVisitNumで指定したコースのみを抽出する
+}
 
 list <- levels(as.factor(dxt_ec$USUBJID)) # 症例登録番号をリスト化する
 
