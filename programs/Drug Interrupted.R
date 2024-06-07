@@ -14,6 +14,10 @@ rawdatapath <- paste0(prtpath, "/rawdata/")
 ec_raw <- read_csv(paste0(rawdatapath, "EC.csv"))
 fa_raw <- read_csv(paste0(rawdatapath, "FA.csv"))
 lb_raw <- read_csv(paste0(rawdatapath, "LB.csv"))
+
+#以下B19のVISITNUM設定ミスに対する応急処置・T19の時はコメントアウト
+fa_raw$VISITNUM <- ifelse(fa_raw$FASPID == "maitenance", 2300, fa_raw$VISITNUM)
+
 # 出力フォルダが存在しなければ作成
 outputpath <- paste0(prtpath, "/output")
 if (!(file.exists(outputpath))){
