@@ -3,8 +3,8 @@
 # MAMIKO YONEJIMA
 
 # config*******
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/第1回/データクリーニング/20220701"
-kTrialTitle  <- "ALL-B19"
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/51_ALL-T19/10.03.10 データレビュー書/第2回/20230703"
+kTrialTitle  <- "ALL-T19"
 #**************
 library(tidyverse)
 
@@ -28,7 +28,7 @@ for (i in 1:length(list)) {
   colnames(outputcsv) <- ifelse(is.na(colnames(outputcsv)), "",
                                 ifelse(colnames(outputcsv) == "NA", "", colnames(outputcsv)))  # NAの処理
   outputcsv <- outputcsv[-1,]
-  write.csv(outputcsv, paste(outputpath, list[i], sep="/"), na='""', row.names = F)
+  write.csv(outputcsv, paste(outputpath, list[i], sep="/"), na='""', row.names = F, fileEncoding="CP932")
 }
 
 

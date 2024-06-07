@@ -4,7 +4,7 @@
 # MAMIKO YONEJIMA
 
 # config*******
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/有害事象Gradeレビュー/ALL-B19_cdisc_220621_1309"
+prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/有害事象Gradeレビュー/ALL-B19_cdisc_230609_1153(20230330-20230609)"
 kTrialTitle  <- "ALL-B19"
 ctcae_version <- "v5.0"　# CTCAEのバージョンを入力する
 #**************
@@ -73,5 +73,5 @@ setwd(outputpath)
 if(nrow(grade4.5) == 0) {
   print("データは0行のため出力対象外です") # 出力データがない場合の処理
 } else {
-  write.csv(grade4.5, paste0(kTrialTitle, " grade4.5 ", kToday, ".csv" ), row.names = F)　#出力データががある場合は該当の行を出力の処理
+  write.csv(grade4.5, paste0(kTrialTitle, " grade4.5 ", kToday, ".csv" ), row.names = F, fileEncoding = "CP932")　#出力データががある場合は該当の行を出力の処理
 }
