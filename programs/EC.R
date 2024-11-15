@@ -4,7 +4,7 @@
 
 # config*******
 prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/第3回/20240601 データクリーニング"
-kTrialTitle  <- "ALL-B19"
+kTrialTitle  <- "ALL-T19"
 kVisitNum <- 2300  #B19では2300を指定。T19で6MPの繰り返しシートにVISITNUMを置いていないためNAを指定。
 
 #**************
