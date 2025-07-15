@@ -5,16 +5,16 @@
 # 2021/8/4 更新
 # 入力ファイル格納場所、リスク分類または割付けがあるかを指定
 # *********************************
-prtpath <- "C:/Users/MamikoYonejima/Box/Datacenter/Trials/JPLSG/51_ALL-T19/10.03.10 データレビュー書/第2回/レポート作成資料/Grade 頻度集計"
-kTrialTitle  <- "ALL-T19"
+prtpath <- "C:/Users/00281351/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/第4回/レポート作成用ファイル/Grade 頻度集計"
+kTrialTitle  <- "ALL-B19"
 ctcae_version <- "v5.0"　# CTCAEのバージョンを入力する　
 # armで分けて集計するか あり: YES, なし: NO
 arm <- "YES"
 # # # ## arm が "YES"の場合、DMドメインのCSVファイルはあるか。　# あり: YES, なし: NO
 dm_domain <- "NO"
-# ###　arm が "YES"の場合且つdm_domainが"NO"の場合、読み込むCSVダウンロードファイル名と、変数名を設定
-kCsv <- "allocation_ALL-T19_230601_0840.csv"
-kArm <- "リスク報告"
+# # ###　arm が "YES"の場合且つdm_domainが"NO"の場合、読み込むCSVダウンロードファイル名と、変数名を設定
+kCsv <- "allocation_ALL-B19_250602_1310.csv"
+kArm <- "確定リスク報告"
 
 # *********************************
 kToday <- Sys.Date()
@@ -35,7 +35,7 @@ DataShaping <- function(grade){
 rawdatapath <- paste0(prtpath, "/rawdata/")
 file_list <- list.files(rawdatapath)
 dm_index <- grep("DM", file_list)  # DM.csvの存在を確認
-if(length(dm_index > 0)) {
+if (length(dm_index) > 0){
   DM <- read_csv(paste0(rawdatapath, "DM.csv"))
 } else {
   base_csv <- read_csv(paste0(rawdatapath, kCsv))
@@ -173,7 +173,6 @@ if(arm == "NO"){ 　# リスク分類なし、割付なしの場合の処理
       df_merge3$Grade5 <- ifelse(df_merge3$Grade.5 == "-", "-", df_merge3$Grade5)  # CTCAEで定義されていないものは"-"にする
 
       df_merge3$Grade3.percent <- ifelse(df_merge3$Grade.3 == "-", "-", df_merge3$Grade3.percent)
-      df_merge3$Grade4.percent <- ifelse(df_merge3$Grade.4 == "-", "-", df_merge3$Grade4.percent)
       df_merge3$Grade5.percent <- ifelse(df_merge3$Grade.5 == "-", "-", df_merge3$Grade5.percent) # CTCAEで定義されていないものは"-"にする
 
       df_merge <- rbind(df_merge3, df_merge2)
