@@ -5,16 +5,16 @@
 # 2021/8/4 更新
 # 入力ファイル格納場所、リスク分類または割付けがあるかを指定
 # *********************************
-prtpath <- "C:/Users/00281351/Box/Datacenter/Trials/JPLSG/49_ALL-B19/10.03.10 データレビュー書/第4回/レポート作成用ファイル/Grade 頻度集計"
-kTrialTitle  <- "ALL-B19"
+prtpath <- "C:/Users/00281351/Box/Datacenter/Trials/JPLSG/50_JMML-20/10.03.10 データレビュー書/第4回/レポート作成用資料"
+kTrialTitle  <- "JMML-20"
 ctcae_version <- "v5.0"　# CTCAEのバージョンを入力する　
 # armで分けて集計するか あり: YES, なし: NO
-arm <- "YES"
+arm <- "NO"
 # # # ## arm が "YES"の場合、DMドメインのCSVファイルはあるか。　# あり: YES, なし: NO
 dm_domain <- "NO"
-# # ###　arm が "YES"の場合且つdm_domainが"NO"の場合、読み込むCSVダウンロードファイル名と、変数名を設定
-kCsv <- "allocation_ALL-B19_250602_1310.csv"
-kArm <- "確定リスク報告"
+# # # ###　arm が "YES"の場合且つdm_domainが"NO"の場合、読み込むCSVダウンロードファイル名と、変数名を設定
+# kCsv <- "allocation_ALL-B19_250602_1310.csv"
+# kArm <- "確定リスク報告"
 
 # *********************************
 kToday <- Sys.Date()
@@ -37,7 +37,7 @@ file_list <- list.files(rawdatapath)
 dm_index <- grep("DM", file_list)  # DM.csvの存在を確認
 if (length(dm_index) > 0){
   DM <- read_csv(paste0(rawdatapath, "DM.csv"))
-} else {
+} else if (exists("kCsv")) {
   base_csv <- read_csv(paste0(rawdatapath, kCsv))
   # colnames(base_csv)[c(19, 21)] <- c("Ig.TCR.MRD",  "FCM.MRD") #Ph18のリスク1で集計のときは使用
   # base_csv$kArm <- ifelse(base_csv$Ig.TCR.MRD == "FCM-MRDで代用", base_csv$FCM.MRD, base_csv$Ig.TCR.MRD) #Ph18のリスク1で集計のときは使用
