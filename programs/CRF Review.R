@@ -23,6 +23,10 @@ list <- list.files(rawdatapath)
 
 for (i in 1:length(list)) {
   csv <- read_csv(paste0(rawdatapath,list[i]), col_names = FALSE)        # CSVの読み込み # 文字化けを防ぐため列名もデータとして読み込む
+  # 1行（ヘッダーのみ）しかない、または完全に空のファイルはスキップ
+  if (nrow(csv) <= 1) {
+    next
+  }
   outputcsv <- csv[, c(1:11, seq(11, length(colnames(csv)), by = 2))]    # fieldXの列を削除
   colnames(outputcsv) <- outputcsv[1,]                                   # データとして読み込んだ列名を見出しとして割り当て
   colnames(outputcsv) <- ifelse(is.na(colnames(outputcsv)), "",
